@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from django_users_management.apps.users.views import UsersView, DeleteUser
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users', UsersView.as_view()),
+    path('users/<int:id>', DeleteUser.as_view())
 ]

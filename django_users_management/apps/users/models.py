@@ -22,21 +22,25 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, **kwargs):
-        user = self.create_user(**kwargs)
-        user.is_active = user.is_admin = user.is_staff \
-            = user.is_superuser = True
-        user.save(using=self._db)
+        super_user_args = {
+            "is_active": True,
+            "is_admin": True,
+            "is_staff": True,
+            "role": "admin"
+        }
+        user = self.create_user(**kwargs, **super_user_args)
         return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
-    is_active = models.BooleanField(default=False)
-    name = models.CharField(max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
     username = models.CharField(max_length=100, null=True, blank=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
 
