@@ -1,0 +1,13 @@
+[flake8]
+exclude =
+    __pycache__,
+    manage.py,
+    settings.py,
+    migrations
+    lib68/,
+    lib/,
+    .vscode/,
+    .github/,
+    __init__.py,
+    venv/,
+max-complexity = 10

@@ -7,7 +7,8 @@ from django_users_management.apps.users.serializers import UserSerializer
 from django_users_management.apps.users.models import User
 
 
-class UsersView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class UsersView(mixins.ListModelMixin, mixins.CreateModelMixin,
+                generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
