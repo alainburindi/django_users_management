@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
 import os
 from pathlib import Path
 
@@ -60,7 +61,29 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+# Workaround for DRF-yasg: https://github.com/axnsan12/drf-yasg/issues/761.
+# TODO: Remove this when DRF-Yasg introduces proper Django 4.0 support.
+
+
+class NoSourceMapsStorage(ManifestStaticFilesStorage):
+    patterns = (
+        (
+            "*.css",
+            (
+                "(?P<matched>url\\(['\"]{0,1}\\s*(?P<url>.*?)[\"']{0,1}\\))",
+                (
+                    "(?P<matched>@import\\s*[\"']\\s*(?P<url>.*?)[\"'])",
+                    '@import url("%(url)s")',
+                ),
+            ),
+        ),
+    )
+
+
+STATICFILES_STORAGE = 'django_users_management.settings.NoSourceMapsStorage'
 
 ROOT_URLCONF = 'django_users_management.urls'
 
