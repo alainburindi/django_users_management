@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'rest_framework',
     'django_users_management.apps.users',
 ]
@@ -89,9 +90,6 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
-        # 'TEST': {
-        #     'NAME': os.environ.get('DB_NAME_TEST', 'test_users_management'),
-        # },
     }
 }
 
